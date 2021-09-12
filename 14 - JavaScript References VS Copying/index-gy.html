@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Reference VS Copy</title>
+</head>
+<body>
+
+  <script>
+    // start with strings, numbers and booleans
+    let n = "Guang";
+    let n2 = n;
+    console.log(n, n2);
+    n = "G";
+    console.log(n, n2);
+
+    // Let's say we have an array
+    const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
+    // let p2 = players;
+    // console.log(players, p2);
+    // p2[3] = 'lux';
+    // console.log(players, p2);
+
+    // and we want to make a copy of it.
+
+    // You might think we can just do something like this:
+
+    // however what happens when we update that array?
+
+    // now here is the problem!
+
+    // oh no - we have edited the original array too!
+
+    // Why? It's because that is an array reference, not an array copy. They both point to the same array!
+
+    // So, how do we fix this? We take a copy instead!
+
+    // one way
+    let pp = players.slice();
+    pp[3] = 'lux';
+    console.log(players, pp);
+
+    // or create a new array and concat the old one in
+    let pp2 = [].concat(players);
+    console.log(pp2);
+
+    // or use the new ES6 Spread
+    let pp3 = [...players];
+    console.log(pp3);
+
+    let pp4 = Array.from(players);
+    console.log(pp4);
+
+    // now when we update it, the original one isn't changed
+
+    // The same thing goes for objects, let's say we have a person object
+
+    // with Objects
+    const person = {
+      name: 'Wes Bos',
+      age: 80
+    };
+
+    // and think we make a copy:
+
+    // how do we take a copy instead?
+    let p2 = Object.assign({}, person, {name: 'Guang Yao'});
+    console.log(p2);
+
+    // We will hopefully soon see the object ...spread
+    let p1 = {...person};
+    console.log(p1);
+
+    // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
+    const wes = {
+      name: 'Wes Bos',
+      age: 80,
+      social: {
+        twitter: "t",
+        facebook: "f"
+      }
+    };
+    console.log(wes);
+
+    let w2 = Object.assign({}, wes);
+    w2.social.twitter = 't2';
+    console.log(w2.social.twitter);
+    console.log(wes.social.twitter);
+
+    let w3 = JSON.parse(JSON.stringify(wes));
+    w3.social.facebook = 'f2';
+    console.log(w3.social.facebook);
+    console.log(wes.social.facebook);
+  </script>
+
+</body>
+</html>
